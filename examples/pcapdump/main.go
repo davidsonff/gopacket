@@ -18,6 +18,7 @@ import (
 
 	"github.com/gopacket/gopacket/dumpcommand"
 	"github.com/gopacket/gopacket/examples/util"
+	_ "github.com/gopacket/gopacket/layers" // pulls in all layers decoders"
 	"github.com/gopacket/gopacket/pcap"
 )
 

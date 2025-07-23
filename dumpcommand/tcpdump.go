@@ -18,7 +18,7 @@ import (
 
 	"github.com/gopacket/gopacket"
 	"github.com/gopacket/gopacket/ip4defrag"
-	"github.com/gopacket/gopacket/layers" // pulls in all layers decoders
+	"github.com/gopacket/gopacket/layers"
 )
 
 var (
@@ -85,9 +85,64 @@ func Run(src gopacket.PacketDataSource) {
 		}
 
 		if *dump {
-			fmt.Println(packet.Dump())
+
+			dot11Layer := packet.Layer(layers.LayerTypeDot11)
+			if dot11Layer != nil {
+				dot11 := dot11Layer.(*layers.Dot11)
+				fmt.Printf("Dot11: %+v\n", dot11)
+			}
+
+			for _, layer := range packet.Layers() {
+				switch l := layer.(type) {
+				case *layers.Dot11:
+					fmt.Printf("Dot11: %+v\n", l)
+				case *layers.Dot11MgmtProbeReq:
+					fmt.Printf("Dot11MgmtProbeReq: %+v\n", l)
+				case *layers.Dot11MgmtProbeResp:
+					fmt.Printf("Dot11MgmtProbeResp: %+v\n", l)
+				case *layers.Dot11MgmtBeacon:
+					fmt.Printf("Dot11MgmtBeacon: %+v\n", l)
+				// case *layers.Dot11MgmtAssocReq:
+				// 	fmt.Printf("Dot11MgmtAssocReq: %+v\n", l)
+				// case *layers.Dot11MgmtAssocResp:
+				// 	fmt.Printf("Dot11MgmtAssocResp: %+v\n", l)
+				// case *layers.Dot11MgmtAuth:
+				// 	fmt.Printf("Dot11MgmtAuth: %+v\n", l)
+				default:
+					// Optionally print other layers
+				}
+			}
+			fmt.Println()
 		} else if *print {
-			fmt.Println(packet)
+
+			dot11Layer := packet.Layer(layers.LayerTypeDot11)
+			if dot11Layer != nil {
+				dot11 := dot11Layer.(*layers.Dot11)
+				fmt.Printf("Dot11: %+v\n", dot11)
+			}
+
+			for _, layer := range packet.Layers() {
+				switch l := layer.(type) {
+				case *layers.Dot11:
+					fmt.Printf("Dot11: %+v\n", l)
+				case *layers.Dot11MgmtProbeReq:
+					fmt.Printf("Dot11MgmtProbeReq: %+v\n", l)
+				case *layers.Dot11MgmtProbeResp:
+					fmt.Printf("Dot11MgmtProbeResp: %+v\n", l)
+				case *layers.Dot11MgmtBeacon:
+					fmt.Printf("Dot11MgmtBeacon: %+v\n", l)
+				// case *layers.Dot11MgmtAssocReq:
+				// 	fmt.Printf("Dot11MgmtAssocReq: %+v\n", l)
+				// case *layers.Dot11MgmtAssocResp:
+				// 	fmt.Printf("Dot11MgmtAssocResp: %+v\n", l)
+				// case *layers.Dot11MgmtAuth:
+				// 	fmt.Printf("Dot11MgmtAuth: %+v\n", l)
+				default:
+					// Optionally print other layers
+				}
+			}
+			fmt.Println()
+
 		}
 		if !*lazy || *print || *dump { // if we've already decoded all layers...
 			for _, layer := range packet.Layers() {
