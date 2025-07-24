@@ -91,7 +91,15 @@ func Run(src gopacket.PacketDataSource) {
 	source.NoCopy = true
 	source.DecodeStreamsAsDatagrams = true
 
+	count := 0
+	start := time.Now()
+	errors := 0
+	truncated := 0
+	layertypes := map[gopacket.LayerType]int{}
+
 	for packet := range source.Packets() {
+		count++
+
 		if err := parser.DecodeLayers(packet.Data(), &decoded); err != nil {
 			log.Println("Error decoding layers:", err)
 			continue
@@ -113,5 +121,28 @@ func Run(src gopacket.PacketDataSource) {
 				fmt.Printf("Other Layer: %s\n", layerType)
 			}
 		}
+
+		for _, layer := range packet.Layers() {
+			layertypes[layer.LayerType()]++
+		}
+		if packet.Metadata().Truncated {
+			truncated++
+		}
+		if errLayer := packet.ErrorLayer(); errLayer != nil {
+			errors++
+
+			fmt.Println("Error:", errLayer.Error())
+			fmt.Println("--- Packet ---")
+			fmt.Println(packet.Dump())
+
+		}
+
+		if count%1000 == 0 {
+			fmt.Fprintf(os.Stderr, "Processed %v packets in %v, %v errors and %v truncated packets\n", count, time.Since(start), errors, truncated)
+			if len(layertypes) > 0 {
+				fmt.Fprintf(os.Stderr, "Layer types seen: %+v\n", layertypes)
+			}
+		}
+
 	}
 }
