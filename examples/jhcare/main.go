@@ -115,7 +115,7 @@ func Run(src gopacket.PacketDataSource) {
 			case layers.LayerTypeDot11MgmtAssociationReq:
 				fmt.Printf("Dot11MgmtAssociationReq package\n")
 			case layers.LayerTypeDot11InformationElement:
-				fmt.Printf("Dot11InformationElement: %+v\n", Dot11Info.String())
+				//				fmt.Printf("Dot11InformationElement: %+v\n", Dot11Info.String())
 			case layers.LayerTypeDot11MgmtProbeReq:
 				fmt.Printf("Dot11MgmtProbeReq\n")
 			case layers.LayerTypeDot11MgmtProbeResp:
