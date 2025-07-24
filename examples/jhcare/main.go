@@ -90,7 +90,7 @@ func Run(src gopacket.PacketDataSource) {
 	var dec gopacket.Decoder
 	source := gopacket.NewPacketSource(src, dec)
 	source.Lazy = false
-	source.NoCopy = true
+	source.NoCopy = false
 	source.DecodeStreamsAsDatagrams = true
 
 	count := 0
