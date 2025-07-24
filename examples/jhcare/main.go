@@ -107,7 +107,7 @@ func Run(src gopacket.PacketDataSource) {
 		for _, layerType := range decoded {
 			switch layerType {
 			case layers.LayerTypeDot11:
-				fmt.Printf("Dot11 add1: %+v, add2 %v, add3 %v, add4 %v, type: %v\n", dot11.Address1, dot11.Address2, dot11.Address3, dot11.Address4, dot11.Type)
+				//fmt.Printf("Dot11 add1: %+v, add2 %v, add3 %v, add4 %v, type: %v\n", dot11.Address1, dot11.Address2, dot11.Address3, dot11.Address4, dot11.Type)
 			case layers.LayerTypeDot11Ctrl:
 				fmt.Printf("Dot11Ctrl package\n")
 			case layers.LayerTypeDot11Data:
