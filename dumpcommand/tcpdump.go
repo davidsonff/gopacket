@@ -118,8 +118,8 @@ func Run(src gopacket.PacketDataSource) {
 
 			dot11Layer := packet.Layer(layers.LayerTypeDot11)
 			if dot11Layer != nil {
-				dot11 := dot11Layer.(*layers.Dot11)
-				fmt.Printf("Dot11: %+v\n", dot11)
+				//dot11 := dot11Layer.(*layers.Dot11)
+				//fmt.Printf("Dot11: %+v\n", dot11)
 			}
 
 			for _, layer := range packet.Layers() {
@@ -140,7 +140,7 @@ func Run(src gopacket.PacketDataSource) {
 				// 	fmt.Printf("Dot11MgmtAuth: %+v\n", l)
 				default:
 					// Optionally print other layers
-					fmt.Printf("%s\n", packet.Dump())
+					//fmt.Printf("%s\n", packet.Dump())
 				}
 			}
 		}
