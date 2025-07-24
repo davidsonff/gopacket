@@ -104,9 +104,9 @@ func Run(src gopacket.PacketDataSource) {
 
 		_ = parser.DecodeLayers(packet.Data(), &decoded)
 
-		for _, layer := range packet.Layers() {
+		for i, layer := range decoded {
 
-			switch layer.LayerType() {
+			switch layer {
 			case layers.LayerTypeDot11:
 				fmt.Printf("Dot11 add1: %+v, add2 %v, add3 %v, add4 %v, type: %v\n", dot11.Address1, dot11.Address2, dot11.Address3, dot11.Address4, dot11.Type)
 			case layers.LayerTypeDot11Ctrl:
@@ -124,10 +124,10 @@ func Run(src gopacket.PacketDataSource) {
 			case layers.LayerTypeDot11MgmtBeacon:
 				fmt.Printf("Dot11MgmtBeacon\n")
 			default:
-				fmt.Printf("Other Layer: %s\n", layer.LayerType().String())
+				fmt.Printf("Other Layer: %s\n", layer.String())
 			}
 
-			layertypes[layer.LayerType()]++
+			layertypes[layer.LayerTypes()[i]]++
 		}
 
 		if packet.Metadata().Truncated {
