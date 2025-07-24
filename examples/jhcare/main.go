@@ -17,7 +17,6 @@ import (
 	"time"
 
 	"github.com/gopacket/gopacket"
-	"github.com/gopacket/gopacket/dumpcommand"
 	"github.com/gopacket/gopacket/examples/util"
 	"github.com/gopacket/gopacket/layers"
 	"github.com/gopacket/gopacket/pcap"
@@ -72,7 +71,7 @@ func main() {
 			log.Fatal("BPF filter error:", err)
 		}
 	}
-	dumpcommand.Run(handle)
+	Run(handle)
 }
 
 func Run(src gopacket.PacketDataSource) {
@@ -127,12 +126,15 @@ func Run(src gopacket.PacketDataSource) {
 				fmt.Printf("Other Layer: %s\n", layerType)
 			}
 		}
+
 		for _, layer := range packet.Layers() {
 			layertypes[layer.LayerType()]++
 		}
+
 		if packet.Metadata().Truncated {
 			truncated++
 		}
+
 		if errLayer := packet.ErrorLayer(); errLayer != nil {
 			errors++
 
