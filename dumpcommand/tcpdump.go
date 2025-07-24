@@ -38,7 +38,7 @@ func Run(src gopacket.PacketDataSource) {
 	}
 	var dec gopacket.Decoder
 	var ok bool
-	if dec, ok = gopacket.DecodersByLayerName[*decoder]; !ok {
+	if dec, ok = gopacket.DecodersByLayerName["Dot11"]; !ok {
 		log.Fatalln("No decoder named", *decoder)
 	}
 	source := gopacket.NewPacketSource(src, dec)
@@ -110,6 +110,7 @@ func Run(src gopacket.PacketDataSource) {
 				// 	fmt.Printf("Dot11MgmtAuth: %+v\n", l)
 				default:
 					// Optionally print other layers
+					fmt.Printf("%s\n", packet.Dump())
 				}
 			}
 			fmt.Println()
@@ -122,15 +123,15 @@ func Run(src gopacket.PacketDataSource) {
 			}
 
 			for _, layer := range packet.Layers() {
-				switch l := layer.(type) {
+				switch layer.(type) {
 				case *layers.Dot11:
-					fmt.Printf("Dot11: %+v\n", l)
+					fmt.Printf("Dot11\n")
 				case *layers.Dot11MgmtProbeReq:
-					fmt.Printf("Dot11MgmtProbeReq: %+v\n", l)
+					fmt.Printf("Dot11MgmtProbeReq\n")
 				case *layers.Dot11MgmtProbeResp:
-					fmt.Printf("Dot11MgmtProbeResp: %+v\n", l)
+					fmt.Printf("Dot11MgmtProbeResp\n")
 				case *layers.Dot11MgmtBeacon:
-					fmt.Printf("Dot11MgmtBeacon: %+v\n", l)
+					fmt.Printf("Dot11MgmtBeacon\n")
 				// case *layers.Dot11MgmtAssocReq:
 				// 	fmt.Printf("Dot11MgmtAssocReq: %+v\n", l)
 				// case *layers.Dot11MgmtAssocResp:
@@ -139,10 +140,9 @@ func Run(src gopacket.PacketDataSource) {
 				// 	fmt.Printf("Dot11MgmtAuth: %+v\n", l)
 				default:
 					// Optionally print other layers
+					fmt.Printf("%s\n", packet.Dump())
 				}
 			}
-			fmt.Println()
-
 		}
 		if !*lazy || *print || *dump { // if we've already decoded all layers...
 			for _, layer := range packet.Layers() {
