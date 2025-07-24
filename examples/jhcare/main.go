@@ -89,7 +89,7 @@ func Run(src gopacket.PacketDataSource) {
 	decoded := []gopacket.LayerType{}
 	var dec gopacket.Decoder
 	source := gopacket.NewPacketSource(src, dec)
-	source.Lazy = false
+	source.Lazy = true
 	source.NoCopy = false
 	source.DecodeStreamsAsDatagrams = true
 
@@ -107,21 +107,21 @@ func Run(src gopacket.PacketDataSource) {
 		for _, layerType := range decoded {
 			switch layerType {
 			case layers.LayerTypeDot11:
-				fmt.Printf("Dot11: %+v\n", dot11)
+				fmt.Printf("Dot11 add1: %+v, add2 %v, add3 %v, add4 %v, type: %v\n", dot11.Address1, dot11.Address2, dot11.Address3, dot11.Address4, dot11.Type)
 			case layers.LayerTypeDot11Ctrl:
-				fmt.Printf("Dot11Ctrl: %+v\n", dot11Ctrl)
+				fmt.Printf("Dot11Ctrl package\n")
 			case layers.LayerTypeDot11Data:
-				fmt.Printf("Dot11Data: %+v\n", Dot11Data)
+				fmt.Printf("Dot11Data package\n")
 			case layers.LayerTypeDot11MgmtAssociationReq:
-				fmt.Printf("Dot11MgmtAssociationReq: %+v\n", Dot11MgmtAssociationReq)
+				fmt.Printf("Dot11MgmtAssociationReq package\n")
 			case layers.LayerTypeDot11InformationElement:
-				fmt.Printf("Dot11InformationElement: %+v\n", Dot11Info)
+				fmt.Printf("Dot11InformationElement: %+v\n", Dot11Info.String())
 			case layers.LayerTypeDot11MgmtProbeReq:
-				fmt.Printf("Dot11MgmtProbeReq: %+v\n", dot11MgmtProbeReq)
+				fmt.Printf("Dot11MgmtProbeReq\n")
 			case layers.LayerTypeDot11MgmtProbeResp:
-				fmt.Printf("Dot11MgmtProbeResp: %+v\n", dot11MgmtProbeResp)
+				fmt.Printf("Dot11MgmtProbeResp\n")
 			case layers.LayerTypeDot11MgmtBeacon:
-				fmt.Printf("Dot11MgmtBeacon: %+v\n", dot11MgmtBeacon)
+				fmt.Printf("Dot11MgmtBeacon\n")
 			default:
 				fmt.Printf("Other Layer: %s\n", layerType)
 			}
