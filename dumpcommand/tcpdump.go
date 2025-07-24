@@ -123,7 +123,7 @@ func Run(src gopacket.PacketDataSource) {
 			}
 
 			for _, layer := range packet.Layers() {
-				switch layer.(type) {
+				switch l := layer.(type) {
 				case *layers.Dot11:
 					fmt.Printf("Dot11\n")
 				case *layers.Dot11MgmtProbeReq:
@@ -132,8 +132,10 @@ func Run(src gopacket.PacketDataSource) {
 					fmt.Printf("Dot11MgmtProbeResp\n")
 				case *layers.Dot11MgmtBeacon:
 					fmt.Printf("Dot11MgmtBeacon\n")
-				// case *layers.Dot11MgmtAssocReq:
-				// 	fmt.Printf("Dot11MgmtAssocReq: %+v\n", l)
+				case *layers.Dot11MgmtAssociationReq:
+					fmt.Printf("Dot11MgmtAssociationReq\n")
+				case *layers.Dot11InformationElement:
+					fmt.Printf("Dot11InformationElement: %+v\n", l)
 				// case *layers.Dot11MgmtAssocResp:
 				// 	fmt.Printf("Dot11MgmtAssocResp: %+v\n", l)
 				// case *layers.Dot11MgmtAuth:
