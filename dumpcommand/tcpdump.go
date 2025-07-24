@@ -124,18 +124,18 @@ func Run(src gopacket.PacketDataSource) {
 
 			for _, layer := range packet.Layers() {
 				switch l := layer.(type) {
-				case *layers.Dot11:
-					fmt.Printf("Dot11\n")
+				//	case *layers.Dot11:
+				//		fmt.Printf("Dot11\n")
 				case *layers.Dot11MgmtProbeReq:
-					fmt.Printf("Dot11MgmtProbeReq\n")
+					fmt.Printf("Dot11MgmtProbeReq: %+v\n", l)
 				case *layers.Dot11MgmtProbeResp:
-					fmt.Printf("Dot11MgmtProbeResp\n")
+					fmt.Printf("Dot11MgmtProbeResp: %+v\n", l)
 				case *layers.Dot11MgmtBeacon:
-					fmt.Printf("Dot11MgmtBeacon\n")
-				case *layers.Dot11MgmtAssociationReq:
-					fmt.Printf("Dot11MgmtAssociationReq\n")
-				case *layers.Dot11InformationElement:
-					fmt.Printf("Dot11InformationElement: %+v\n", l)
+					fmt.Printf("Dot11MgmtBeacon: %+v\n", l)
+				//case *layers.Dot11MgmtAssociationReq:
+				//	fmt.Printf("Dot11MgmtAssociationReq\n")
+				//case *layers.Dot11InformationElement:
+				//	fmt.Printf("Dot11InformationElement: %+v\n", l)
 				// case *layers.Dot11MgmtAssocResp:
 				// 	fmt.Printf("Dot11MgmtAssocResp: %+v\n", l)
 				// case *layers.Dot11MgmtAuth:
