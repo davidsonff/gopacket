@@ -102,10 +102,7 @@ func Run(src gopacket.PacketDataSource) {
 	for packet := range source.Packets() {
 		count++
 
-		if err := parser.DecodeLayers(packet.Data(), &decoded); err != nil {
-			log.Println("Error decoding layers:", err)
-			continue
-		}
+		_ = parser.DecodeLayers(packet.Data(), &decoded)
 
 		for _, layerType := range decoded {
 			switch layerType {
