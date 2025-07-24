@@ -120,29 +120,28 @@ func Run(src gopacket.PacketDataSource) {
 			default:
 				fmt.Printf("Other Layer: %s\n", layerType)
 			}
-		}
 
-		for _, layer := range packet.Layers() {
-			layertypes[layer.LayerType()]++
-		}
-		if packet.Metadata().Truncated {
-			truncated++
-		}
-		if errLayer := packet.ErrorLayer(); errLayer != nil {
-			errors++
+			for _, layer := range packet.Layers() {
+				layertypes[layer.LayerType()]++
+			}
+			if packet.Metadata().Truncated {
+				truncated++
+			}
+			if errLayer := packet.ErrorLayer(); errLayer != nil {
+				errors++
 
-			fmt.Println("Error:", errLayer.Error())
-			fmt.Println("--- Packet ---")
-			fmt.Println(packet.Dump())
+				fmt.Println("Error:", errLayer.Error())
+				fmt.Println("--- Packet ---")
+				fmt.Println(packet.Dump())
 
-		}
+			}
 
-		if count%1000 == 0 {
-			fmt.Fprintf(os.Stderr, "Processed %v packets in %v, %v errors and %v truncated packets\n", count, time.Since(start), errors, truncated)
-			if len(layertypes) > 0 {
-				fmt.Fprintf(os.Stderr, "Layer types seen: %+v\n", layertypes)
+			if count%1000 == 0 {
+				fmt.Fprintf(os.Stderr, "Processed %v packets in %v, %v errors and %v truncated packets\n", count, time.Since(start), errors, truncated)
+				if len(layertypes) > 0 {
+					fmt.Fprintf(os.Stderr, "Layer types seen: %+v\n", layertypes)
+				}
 			}
 		}
-
 	}
 }
