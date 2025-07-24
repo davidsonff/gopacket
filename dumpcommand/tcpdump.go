@@ -38,7 +38,7 @@ func Run(src gopacket.PacketDataSource) {
 	}
 	var dec gopacket.Decoder
 	var ok bool
-	if dec, ok = gopacket.DecodersByLayerName["Dot11Ctrl"]; !ok {
+	if dec, ok = gopacket.DecodersByLayerName["Dot11MgmtProbeReq"]; !ok {
 		log.Fatalln("No decoder named", *decoder)
 	}
 	source := gopacket.NewPacketSource(src, dec)
