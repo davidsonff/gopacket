@@ -134,6 +134,8 @@ func Run(src gopacket.PacketDataSource) {
 					fmt.Printf("Dot11MgmtProbeResp: %+v\n", l)
 				case *layers.Dot11MgmtBeacon:
 					fmt.Printf("Dot11MgmtBeacon: %+v\n", l)
+				case *layers.Dot11Ctrl:
+					fmt.Printf("Dot11Ctrl: %+v\n", l)
 				//case *layers.Dot11MgmtAssociationReq:
 				//	fmt.Printf("Dot11MgmtAssociationReq\n")
 				//case *layers.Dot11InformationElement:
