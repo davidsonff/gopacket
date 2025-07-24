@@ -104,18 +104,19 @@ func Run(src gopacket.PacketDataSource) {
 
 		_ = parser.DecodeLayers(packet.Data(), &decoded)
 
-		for _, layerType := range decoded {
-			switch layerType {
+		for _, layer := range packet.Layers() {
+
+			switch layer.LayerType() {
 			case layers.LayerTypeDot11:
-				//fmt.Printf("Dot11 add1: %+v, add2 %v, add3 %v, add4 %v, type: %v\n", dot11.Address1, dot11.Address2, dot11.Address3, dot11.Address4, dot11.Type)
+				fmt.Printf("Dot11 add1: %+v, add2 %v, add3 %v, add4 %v, type: %v\n", dot11.Address1, dot11.Address2, dot11.Address3, dot11.Address4, dot11.Type)
 			case layers.LayerTypeDot11Ctrl:
 				fmt.Printf("Dot11Ctrl package\n")
 			case layers.LayerTypeDot11Data:
 				fmt.Printf("Dot11Data package\n")
 			case layers.LayerTypeDot11MgmtAssociationReq:
-				//fmt.Printf("Dot11MgmtAssociationReq package\n")
+				fmt.Printf("Dot11MgmtAssociationReq package\n")
 			case layers.LayerTypeDot11InformationElement:
-				//				fmt.Printf("Dot11InformationElement: %+v\n", Dot11Info.String())
+				fmt.Printf("Dot11InformationElement: %+v\n", Dot11Info.String())
 			case layers.LayerTypeDot11MgmtProbeReq:
 				fmt.Printf("Dot11MgmtProbeReq\n")
 			case layers.LayerTypeDot11MgmtProbeResp:
@@ -123,11 +124,9 @@ func Run(src gopacket.PacketDataSource) {
 			case layers.LayerTypeDot11MgmtBeacon:
 				fmt.Printf("Dot11MgmtBeacon\n")
 			default:
-				fmt.Printf("Other Layer: %s\n", layerType)
+				fmt.Printf("Other Layer: %s\n", layer.LayerType().String())
 			}
-		}
 
-		for _, layer := range packet.Layers() {
 			layertypes[layer.LayerType()]++
 		}
 
