@@ -104,7 +104,7 @@ func Run(src gopacket.PacketDataSource) {
 
 		_ = parser.DecodeLayers(packet.Data(), &decoded)
 
-		for i, layer := range decoded {
+		for _, layer := range decoded {
 
 			switch layer {
 			case layers.LayerTypeDot11:
@@ -126,8 +126,7 @@ func Run(src gopacket.PacketDataSource) {
 			default:
 				fmt.Printf("Other Layer: %s\n", layer.String())
 			}
-
-			layertypes[layer.LayerTypes()[i]]++
+			layertypes[layer]++
 		}
 
 		if packet.Metadata().Truncated {
