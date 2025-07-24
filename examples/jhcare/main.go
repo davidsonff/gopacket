@@ -80,12 +80,11 @@ func Run(src gopacket.PacketDataSource) {
 	var dot11Ctrl layers.Dot11Ctrl
 	var Dot11Data layers.Dot11Data
 	var Dot11MgmtAssociationReq layers.Dot11MgmtAssociationReq
-	var Dot11Info layers.Dot11InformationElement
 	var dot11MgmtProbeReq layers.Dot11MgmtProbeReq
 	var dot11MgmtProbeResp layers.Dot11MgmtProbeResp
 	var dot11MgmtBeacon layers.Dot11MgmtBeacon
 
-	parser := gopacket.NewDecodingLayerParser(layers.LayerTypeDot11, &dot11, &dot11Ctrl, &Dot11Data, &Dot11MgmtAssociationReq, &Dot11Info, &dot11MgmtProbeReq, &dot11MgmtProbeResp, &dot11MgmtBeacon)
+	parser := gopacket.NewDecodingLayerParser(layers.LayerTypeDot11, &dot11, &dot11Ctrl, &Dot11Data, &Dot11MgmtAssociationReq, &dot11MgmtProbeReq, &dot11MgmtProbeResp, &dot11MgmtBeacon)
 	decoded := []gopacket.LayerType{}
 	var dec gopacket.Decoder
 	source := gopacket.NewPacketSource(src, dec)
@@ -117,8 +116,6 @@ func Run(src gopacket.PacketDataSource) {
 				fmt.Printf("Dot11Data: %+v\n", Dot11Data)
 			case layers.LayerTypeDot11MgmtAssociationReq:
 				fmt.Printf("Dot11MgmtAssociationReq: %+v\n", Dot11MgmtAssociationReq)
-			case layers.LayerTypeDot11InformationElement:
-				fmt.Printf("Dot11InformationElement: %+v\n", Dot11Info)
 			case layers.LayerTypeDot11MgmtProbeReq:
 				fmt.Printf("Dot11MgmtProbeReq: %+v\n", dot11MgmtProbeReq)
 			case layers.LayerTypeDot11MgmtProbeResp:
