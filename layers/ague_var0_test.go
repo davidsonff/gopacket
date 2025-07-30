@@ -11,7 +11,7 @@ import (
 	"net"
 	"testing"
 
-	"github.com/google/gopacket"
+	"github.com/davidsonff/gopacket"
 )
 
 func TestGueDecoding(t *testing.T) {
