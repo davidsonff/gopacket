@@ -81,7 +81,7 @@ func Run(src *pcap.Handle) {
 	//var dot11MgmtProbeResp layers.Dot11MgmtProbeResp
 	//var dot11MgmtBeacon layers.Dot11MgmtBeacon
 
-	parser := gopacket.NewDecodingLayerParser(layers.LayerTypeDot11, &dot11MgmtProbeReq, &Dot11Info)
+	parser := gopacket.NewDecodingLayerParser(layers.LayerTypeDot11MgmtProbeReq, &dot11MgmtProbeReq, &Dot11Info)
 	decoded := []gopacket.LayerType{}
 	var dec gopacket.Decoder
 	source := gopacket.NewPacketSource(src, dec)
