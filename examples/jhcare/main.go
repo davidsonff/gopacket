@@ -114,7 +114,13 @@ func Run(src *pcap.Handle) {
 			case layers.LayerTypeDot11InformationElement:
 				fmt.Printf("Dot11InformationElement: %+v\n", Dot11Info.String())
 			case layers.LayerTypeDot11MgmtProbeReq:
-				fmt.Printf("Dot11MgmtProbeReq: %v\n", string(dot11MgmtProbeReq.LayerContents()))
+				pr := []byte(layer.String())
+				probeReq, err := ParseProbeRequest(pr)
+				if err != nil {
+					fmt.Printf("Error parsing probe request: %v\n", err)
+					continue
+				}
+				fmt.Printf("Dot11MgmtProbeReq: %s\n", probeReq.String())
 			case layers.LayerTypeDot11MgmtProbeResp:
 				fmt.Printf("Dot11MgmtProbeResp\n")
 			case layers.LayerTypeDot11MgmtBeacon:
