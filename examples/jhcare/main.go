@@ -76,12 +76,12 @@ func Run(src *pcap.Handle) {
 	//var dot11Ctrl layers.Dot11Ctrl
 	//var Dot11Data layers.Dot11Data
 	//var Dot11MgmtAssociationReq layers.Dot11MgmtAssociationReq
-	var dot11MgmtProbeReq layers.Dot11MgmtProbeReq
+	// var dot11MgmtProbeReq layers.Dot11MgmtProbeReq
 	var Dot11Info layers.Dot11InformationElement
 	//var dot11MgmtProbeResp layers.Dot11MgmtProbeResp
 	//var dot11MgmtBeacon layers.Dot11MgmtBeacon
 
-	parser := gopacket.NewDecodingLayerParser(layers.LayerTypeDot11MgmtProbeReq, &dot11MgmtProbeReq, &Dot11Info)
+	parser := gopacket.NewDecodingLayerParser(layers.LayerTypeDot11, &Dot11Info)
 	decoded := []gopacket.LayerType{}
 	var dec gopacket.Decoder
 	source := gopacket.NewPacketSource(src, dec)
@@ -97,6 +97,14 @@ func Run(src *pcap.Handle) {
 
 	for packet := range source.Packets() {
 		count++
+
+		pr := packet.Data()
+		probeReq, err := ParseProbeRequest(pr)
+		if err != nil {
+			fmt.Printf("Error parsing probe request: %v\n", err)
+			continue
+		}
+		fmt.Printf("Dot11MgmtProbeReq: %s\n", probeReq.String())
 
 		_ = parser.DecodeLayers(packet.Data(), &decoded)
 
