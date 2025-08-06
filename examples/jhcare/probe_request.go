@@ -95,21 +95,22 @@ func ParseProbeRequest(data []byte) (*ProbeRequest, error) {
 	// Information Elements (start after the MAC header)
 	// This is a simplified parsing. In reality, you'd iterate through IEs
 	// based on Element ID and Length fields.
+
+	// Parse Information Elements (IEs) starting at offset 24
 	ieData := data[24:]
-	for len(ieData) > 0 {
-		if len(ieData) < 2 { // Need at least ID and Length
-			return nil, fmt.Errorf("malformed information element")
-		}
-		ie := InformationElement{
-			ID:     ieData[0],
-			Length: ieData[1],
-		}
-		if len(ieData) < int(ie.Length)+2 { // Check if the info field is complete
+	for len(ieData) >= 2 {
+		id := ieData[0]
+		length := ieData[1]
+		if len(ieData) < int(length)+2 {
 			return nil, fmt.Errorf("malformed information element, info field incomplete")
 		}
-		ie.Info = ieData[2 : 2+ie.Length]
+		ie := InformationElement{
+			ID:     id,
+			Length: length,
+			Info:   ieData[2 : 2+length],
+		}
 		probeReq.InformationElements = append(probeReq.InformationElements, ie)
-		ieData = ieData[2+ie.Length:]
+		ieData = ieData[2+length:]
 	}
 
 	return probeReq, nil
