@@ -81,7 +81,7 @@ func Run(src *pcap.Handle) {
 	//var dot11MgmtProbeResp layers.Dot11MgmtProbeResp
 	//var dot11MgmtBeacon layers.Dot11MgmtBeacon
 
-	parser := gopacket.NewDecodingLayerParser(layers.LayerTypeDot11, &Dot11Info)
+	parser := gopacket.NewDecodingLayerParser(L80211Layer)
 	decoded := []gopacket.LayerType{}
 	var dec gopacket.Decoder
 	source := gopacket.NewPacketSource(src, dec)
@@ -121,13 +121,7 @@ func Run(src *pcap.Handle) {
 			// 	fmt.Printf("Dot11MgmtAssociationReq package\n")
 			case layers.LayerTypeDot11InformationElement:
 				fmt.Printf("Dot11InformationElement: %+v\n", Dot11Info.String())
-			case layers.LayerTypeDot11MgmtProbeReq:
-				pr := []byte(layer.String())
-				probeReq, err := ParseProbeRequest(pr)
-				if err != nil {
-					fmt.Printf("Error parsing probe request: %v\n", err)
-					continue
-				}
+			case L80211Layer:
 				fmt.Printf("Dot11MgmtProbeReq: %s\n", probeReq.String())
 			case layers.LayerTypeDot11MgmtProbeResp:
 				fmt.Printf("Dot11MgmtProbeResp\n")

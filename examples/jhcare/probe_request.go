@@ -4,6 +4,8 @@ import (
 	"encoding/binary"
 	"fmt"
 	"net"
+
+	"github.com/davidsonff/gopacket"
 )
 
 // ProbeRequest represents an 802.11 Probe Request frame.
@@ -144,6 +146,13 @@ func (probeReq *ProbeRequest) String() string {
 		}
 	}
 	return pr
+}
+
+func (m ProbeRequest) LayerType() gopacket.LayerType { return L80211Layer }
+func (m ProbeRequest) LayerContents() []byte         { return []byte(m.String()) }
+func (m ProbeRequest) LayerPayload() []byte          { return nil }
+func (m ProbeRequest) CanDecode() gopacket.LayerClass {
+	return L80211Layer
 }
 
 func ParseProbeReq(pr []byte) (*ProbeRequest, error) {
